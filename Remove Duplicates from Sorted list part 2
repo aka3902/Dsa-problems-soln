@@ -1,0 +1,53 @@
+
+Input: head = [1,2,3,3,4,4,5]
+Output: [1,2,5]
+Input: head = [1,1,1,2,3]
+Output: [2,3]
+
+#################################################################################################
+
+SOLUTION :
+TIME COMPLEXITY O(N)
+SPACE COMPLEXITY O(N)
+
+class Solution {
+public:
+   ListNode* deleteDuplicates(ListNode* head) {
+   ListNode * temp=head;
+   ListNode *prev=head;
+   ListNode* cpy=NULL;
+    int flag=0;
+   // cout<<flag<<endl;
+        while(temp!=NULL)
+        {         
+           if(temp -> next !=NULL && temp-> val == temp->next-> val)
+           {
+             ListNode* cpy=temp;
+             flag=1;
+             if(cpy -> val == temp -> val)
+             {  cout<<cpy -> val<< endl;
+              prev->next=temp->next;
+              delete temp;
+
+             }
+           } 
+           else
+           {
+               if(flag == 1 )
+               { // cout<<flag<<endl;
+                   if(cpy != nullptr && cpy -> val == temp -> val)
+                  {   cout<<cpy -> val<< endl;
+                   prev->next=temp->next ;
+                  }
+               } 
+               else{
+                   prev=temp;
+                   flag=0;
+               }
+                 
+            }
+            temp = temp -> next; 
+           
+        }
+        return head;    }
+};
