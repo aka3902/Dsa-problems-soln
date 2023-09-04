@@ -1,0 +1,35 @@
+INPUT
+ST= 4 3 2 ,X=8
+OUTPUT
+8 4 3 2
+
+/**************************************************/
+#include <bits/stdc++.h> 
+
+void solve(stack<int>&st, int x)
+{
+    if(st.empty())
+    {
+        st.push(x);
+        return;
+    }
+
+    int num= st.top();
+    st.pop();
+
+    solve(st,x);
+
+    st.push(num);
+}
+
+
+
+
+stack<int> pushAtBottom(stack<int>& myStack, int x) 
+{
+    // Write your code here.
+    solve(myStack,x);
+    return myStack;
+
+}
+
