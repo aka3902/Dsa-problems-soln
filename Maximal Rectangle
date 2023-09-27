@@ -1,0 +1,109 @@
+This is extension of largest area in histogram problem
+
+LEVEL : HARD
+
+Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+Output: 6
+Explanation: The maximal rectangle is shown in the above picture.
+Example 2:
+
+Input: matrix = [["0"]]
+Output: 0
+Example 3:
+
+Input: matrix = [["1"]]
+Output: 1
+
+|****************************************************************************************************************|
+
+T.C = O(n*m)
+S.C = O(n)
+class Solution {
+public:
+    vector<int>prevSmallerElement(vector<int>v, int m){
+        stack<int>s;
+        s.push(-1);
+        vector<int> result(m);
+
+        for(int i=0;i<m;i++){
+            int curr=v[i];
+
+            while(s.top()!=-1 && v[s.top()]>=curr){
+                s.pop();
+            }
+            result[i]=s.top();
+            s.push(i);
+            
+        }
+        return result;
+    }
+
+    vector<int>nextSmallerElement(vector<int>v, int m){
+        stack<int>s;
+        s.push(-1);
+        vector<int> result(m);
+
+        for(int i=m-1;i>=0;i--){
+            int curr=v[i];
+
+            while(s.top()!=-1 && v[s.top()]>=curr){
+                s.pop();
+            }
+            result[i]=s.top();
+            s.push(i);
+            
+        }
+        return result;
+    }
+
+    int maxArea(vector<int>v, int m){
+
+        vector<int>prev(m);
+        prev=prevSmallerElement(v,m);
+
+        vector<int>next(m);
+        next=nextSmallerElement(v,m);
+
+        int area=INT16_MIN;
+        for(int i=0; i<m;i++){
+            int l=v[i];
+            if(next[i]==-1){
+                next[i]=m;
+            }
+            int b=next[i]-prev[i]-1;
+            int newArea=l*b;
+            area=max(area,newArea);
+        }
+        return area;
+    }
+    int maximalRectangle(vector<vector<char>>& arr) {
+        int n = arr.size();
+        int m = arr[0].size();
+
+        vector<int>v(m);
+        for(int i=0;i<m;i++){
+            int a=int(arr[0][i] - '0');
+            v[i]=a;
+        }
+        int area=maxArea(v,m);
+
+        for(int i=1;i<n;i++){
+            for(int j=0; j<m;j++){
+                if(arr[i][j]!='0'){
+                    int a=int(arr[i][j] - '0');
+                    v[j]+=a; 
+                }
+                else{
+                    v[j]=0;
+                } 
+            }
+
+            int newArea=maxArea(v,m);
+            area=max(area,newArea);
+        }
+        return area;
+    }
+};
+
+
+
