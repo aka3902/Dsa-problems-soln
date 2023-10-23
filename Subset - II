@@ -1,0 +1,55 @@
+Input: nums = [1,2,2]
+Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+The answer should be without any duplicate subset
+Example 2:
+Input: nums = [0]
+Output: [[],[0]]
+
+/ ****************************************************SOLUTION*************************************************************************************************/
+TIME COMLEXITY :O(2^n)
+SPACE COMLEXITY ::O(2^n)
+class Solution {
+public:
+bool isPresent(vector<vector<int>> &matrix, vector<int> &vec) {
+    for (auto row : matrix) {
+   
+        if (row == vec) {
+            return true;
+        }
+    }
+    return false;
+}
+void solve( vector<vector<int>> &ans,vector<int> nums,vector<int> v,int i,int n)
+    {
+        if(i>=n)
+        {
+            if(v.empty())
+            {vector<int> a;
+            ans.push_back(a);
+            }
+            else
+            { 
+                 sort(v.begin(),v.end());
+                if (!(isPresent(ans,v))) 
+                {   
+                    ans.push_back(v);
+                }
+                
+            }
+            return;
+        }
+
+        v.push_back(nums[i]);// add ka case h yeh
+        solve(ans,nums,v,i+1,n);
+
+         v.pop_back();  // remove ka case h yeh
+        solve(ans,nums,v,i+1,n);
+    }  
+vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+         vector<vector<int>>  ans;
+         vector<int> v;
+        int n = nums.size();
+        solve(ans,nums,v,0,n);
+        return ans;  
+    }
+};
